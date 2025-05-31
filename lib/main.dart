@@ -1,8 +1,13 @@
+import 'dart:math';
+
+import 'package:fantasy_rice/widgets/dock/dock.dart';
+import 'package:fantasy_rice/widgets/lock/lock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wayland_shell/wayland_shell.dart';
+import 'package:widget_mask/widget_mask.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,55 +27,86 @@ class MyApp extends HookConsumerWidget {
         backgroundColor: Colors.transparent,
         body: Stack(
           children: [
+            Dock(),
             if (pausedScreen.value != null)
               AnimatedBuilder(
-                animation: ac,
-                child: null,
-                builder: (context, child) {
-                  return Container(
-                    width: 3200,
-                    height: 2000,
-                    color: Colors.black.withValues(alpha: ac.value == 0.0 ? 0.0 : 1.0),
-                    child: Stack(
-                      children: [
-                        Transform.scale(
-                          scale: 0.8 + 0.2 * (1 - ac.value),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20 * ac.value),
-                            child: Texture(
-                              textureId: pausedScreen.value!,
+                  animation: ac,
+                  child: null,
+                  builder: (context, child) {
+                    return Container(
+                      color: Colors.black
+                          .withValues(alpha: ac.value == 0.0 ? 0.0 : 1.0),
+                      child: Stack(
+                        children: [
+                          if (ac.value != 0.0)
+                            Positioned.fill(
+                              child: Image(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  "assets/purple_oil_background.jpg",
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          color: const Color.fromARGB(255, 0, 0, 0).withValues(alpha: 0.2 * ac.value),
-                        )
-                      ],
-                    ),
-                  );
-                }
-              ),
+                          if (ac.value != 0.0)
+                            Transform.scale(
+                              scale: 0.8 + 0.2 * (1 - ac.value),
+                              child: Container(
+                                foregroundDecoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.circular(100 * ac.value),
+                                  color: const Color.fromARGB(255, 0, 0, 0)
+                                      .withValues(alpha: 0.5 * ac.value),
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.circular(100 * ac.value),
+                                  border: Border.all(
+                                    width: 5.0 * ac.value,
+                                    color: Colors.orangeAccent,
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.circular(100 * ac.value),
+                                  child: Texture(
+                                    textureId: pausedScreen.value!,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          LockOverlay(progress: ac.value)
+                        ],
+                      ),
+                    );
+                  }),
             Center(
-              child: InputRegion(
-                child: Container(
-                  color: Colors.amber,
-                  height: 200,
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 100,
+              child: Container(
+                color: Colors.transparent,
+                height: 200,
+                child: Column(
+                  children: [
+                    InputRegion(
+                      child: Container(
+                        height: 50,
+                        width: 120,
+                        padding: EdgeInsets.all(10),
+                        color: Colors.amber,
                         child: TextButton(
                           onPressed: () async {
                             final b = (await const MethodChannel("general")
                                 .invokeMethod('get_single_screen') as int);
 
                             pausedScreen.value = b;
-                            ac.animateTo(1.0, curve: Curves.easeOut, duration: Duration(milliseconds: 500));
+                            ac.animateTo(1.0,
+                                curve: Curves.easeOutExpo,
+                                duration: Duration(milliseconds: 500));
 
                             await Future.delayed(Duration(seconds: 2));
 
                             // pausedScreen.value = null;
-                            ac.animateTo(0.0, curve: Curves.easeOut, duration: Duration(milliseconds: 500));
+                            ac.animateTo(0.0,
+                                curve: Curves.easeOutExpo,
+                                duration: Duration(milliseconds: 500));
 
                             // final a = (await const MethodChannel("general")
                             //             .invokeMethod('get_window_textures')
@@ -87,26 +123,26 @@ class MyApp extends HookConsumerWidget {
                           child: Text("Hello"),
                         ),
                       ),
-                      Container(
-                        height: 100,
-                        color: Colors.grey,
-                        child: Row(
-                          children: counter.value.entries
-                              .map(
-                                (e) => Container(
-                                  width: 100,
-                                  height: 100,
-                                  color: Colors.blue,
-                                  child: Texture(
-                                    textureId: e.value,
-                                  ),
+                    ),
+                    Container(
+                      height: 100,
+                      color: Colors.transparent,
+                      child: Row(
+                        children: counter.value.entries
+                            .map(
+                              (e) => Container(
+                                width: 100,
+                                height: 100,
+                                color: Colors.blue,
+                                child: Texture(
+                                  textureId: e.value,
                                 ),
-                              )
-                              .toList(),
-                        ),
+                              ),
+                            )
+                            .toList(),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

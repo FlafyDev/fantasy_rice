@@ -737,6 +737,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  widget_mask:
+    dependency: "direct main"
+    description:
+      name: widget_mask
+      sha256: fa1f5b6b9ac7f7a300a67ae267191b329f3f812cf86ad7a0d03369dc68e5e732
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0+0"
   yaml:
     dependency: transitive
     description:
