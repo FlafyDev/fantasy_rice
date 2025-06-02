@@ -252,33 +252,28 @@ bool init() {
       return false;
     }
 
-    fprintf(stderr, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n");
     if (state.shm == NULL) {
       fprintf(stderr, "compositor doesn't support wl_shm\n");
       return false;
     }
 
-    fprintf(stderr, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n");
     if (state.screencopy_manager == NULL) {
       fprintf(stderr, "compositor doesn't support the screencopy protocol\n");
       return EXIT_FAILURE;
     }
 
-    fprintf(stderr, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n");
     if (state.toplevel_export_manager == NULL) {
       fprintf(stderr,
               "compositor doesn't support hyprland-toplevel-export-v1\n");
       return false;
     }
 
-    fprintf(stderr, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n");
     if (state.foreign_toplevel_manager == NULL) {
       fprintf(stderr,
               "compositor doesn't support zwlr_foreign_toplevel_manager_v1\n");
       return false;
     }
 
-    fprintf(stderr, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n");
     zwlr_foreign_toplevel_manager_v1_add_listener(
         state.foreign_toplevel_manager, &toplevel_manager_listener, &state);
 
@@ -286,13 +281,11 @@ bool init() {
            wl_display_dispatch(state.display) != -1)
       ;
 
-    fprintf(stderr, "aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n");
     state.init = true;
   } else {
     wl_display_roundtrip(state.display);
     // wl_display_dispatch(state.display);
   }
-  fprintf(stderr, "bbbbbbbbbbbbbbbb\n");
   return true;
 }
 
@@ -419,12 +412,21 @@ std::map<std::string, uintptr_t> get_buffer_test(FlView *view) {
       fl_texture_registrar_register_texture(tex_reg, fl_texture);
       uintptr_t res = reinterpret_cast<uintptr_t>(fl_texture);
 
-      // Avoid overwriting keys with the same name
-      std::string key = toplevel->title;
-      int suffix = 1;
+
+      // Get width and height from the buffer
+      int width = toplevel->buffer->width;
+      int height = toplevel->buffer->height;
+
+      // Create key with title and dimensions
+      std::string base_key = toplevel->title + "___" + std::to_string(width) + "___" + std::to_string(height) + "___";
+      std::string key = base_key;
+
+      // Ensure uniqueness with suffix if needed
+      int suffix = 0;
       while (texture_map.find(key) != texture_map.end()) {
-        key = toplevel->title + "_" + std::to_string(suffix++);
+        suffix++;
       }
+      key = base_key + "_" + std::to_string(suffix);
 
       texture_map.insert({key, res});
       destroy_buffer(toplevel->buffer);

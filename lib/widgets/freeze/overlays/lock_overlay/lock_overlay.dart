@@ -27,7 +27,7 @@ class LockOverlay extends HookConsumerWidget {
               child: Transform.rotate(
                 angle: pi * 2 / 20,
                 child: Image.asset(
-                  "assets/rice_chain_long.png",
+                  "assets/overlays/lock/chain.png",
                   scale: 1.3,
                 ),
               ),
@@ -40,7 +40,7 @@ class LockOverlay extends HookConsumerWidget {
             child: Transform.rotate(
               angle: pi * 2 / 20,
               child: Image.asset(
-                "assets/rice_chain_long.png",
+                "assets/overlays/lock/chain.png",
                 scale: 1.3,
               ),
             ),
@@ -50,7 +50,7 @@ class LockOverlay extends HookConsumerWidget {
             child: Transform.translate(
               offset: Offset(0, (1080) * (progress - 1) - 50),
               child: Image.asset(
-                "assets/rice_lock.png",
+                "assets/overlays/lock/lock.png",
                 scale: 2.5,
               ),
             ),

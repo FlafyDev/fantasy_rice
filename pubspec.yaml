@@ -42,6 +42,9 @@ dependencies:
   flutter_hooks: ^0.21.2
   riverpod_annotation: ^2.6.1
   widget_mask: ^1.0.0+0
+  freezed_annotation: ^3.0.0
+  flutter_custom_carousel: ^0.1.0+1
+  dbus: ^0.7.11
 
 dev_dependencies:
   flutter_test:
@@ -59,6 +62,7 @@ dev_dependencies:
   riverpod_lint: ^2.6.5
   analyzer: 7.3.0
   analyzer_plugin: 0.13.0
+  freezed: ^3.0.6
 
 
 # For information on the generic Dart part of this file, see the
@@ -72,15 +76,32 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  shaders:
+    - shaders/balatro_3d.frag
+
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/dock/
+    - assets/dock/gems/
+    - assets/dock/icons/
+    - assets/dock/borders/
+    - assets/overlays/
+    - assets/overlays/backgrounds/
+    - assets/overlays/lock/
+    - assets/scroll/
+    - assets/backgrounds/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
+
+  fonts:
+    - family: PistonBlack
+      fonts:
+        - asset: assets/fonts/PistonBlack-Regular.ttf
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

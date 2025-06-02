@@ -54,8 +54,13 @@ const identityMatrix = <double>[
 
 class Dock extends HookConsumerWidget {
   const Dock({
+    required this.onLock,
+    required this.onPowerOff,
     super.key,
   });
+
+  final void Function() onLock;
+  final void Function() onPowerOff;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,42 +69,49 @@ class Dock extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // Stack(
-          //   children: [
-          //     Image.asset("assets/rice_top_bg.png", scale: 2),
-          //     Image.asset("assets/rice_top.png", scale: 2),
-          //   ],
-          // ),
+          Stack(
+            children: [
+              // Image.asset("assets/rice_top_bg.png", scale: 2),
+              Image.asset("assets/dock/borders/rice_top.png", scale: 2),
+            ],
+          ),
           InputRegion(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DockUtilityButton(
-                  assetImageName: "assets/rice_btn_slot_poweroff.png",
+                  onPressed: onPowerOff,
+                  assetImageName: "assets/dock/icons/poweroff.png",
                 ),
                 DockUtilityButton(
-                  assetImageName: "assets/rice_btn_slot_lock.png",
+                  onPressed: onLock,
+                  assetImageName: "assets/dock/icons/lock.png",
                 ),
                 DockUtilityButton(
-                  assetImageName: "assets/rice_btn_slot_lock.png",
+                  onPressed: () {},
+                  assetImageName: "assets/dock/icons/lock.png",
                 ),
                 SizedBox(width: 10),
                 ...List.generate(
                   6,
                   (i) => DockWorkspaceButton(
+                    onPressed: () {},
                     key: ValueKey(i + 3),
                   ),
                 ),
                 SizedBox(width: 10),
                 DockUtilityButton(
-                  assetImageName: "assets/rice_btn_slot_lock.png",
+                  onPressed: () {},
+                  assetImageName: "assets/dock/icons/lock.png",
                 ),
                 DockUtilityButton(
-                  assetImageName: "assets/rice_btn_slot_lock.png",
+                  onPressed: () {},
+                  assetImageName: "assets/dock/icons/lock.png",
                 ),
                 DockUtilityButton(
-                  assetImageName: "assets/rice_btn_slot_lock.png",
+                  onPressed: () {},
+                  assetImageName: "assets/dock/icons/lock.png",
                 ),
               ],
             ),
@@ -115,8 +127,11 @@ class Dock extends HookConsumerWidget {
 
 class DockWorkspaceButton extends StatelessWidget {
   const DockWorkspaceButton({
+    required this.onPressed,
     super.key,
   });
+
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -130,9 +145,7 @@ class DockWorkspaceButton extends StatelessWidget {
           child: Material(
             color: const Color.fromARGB(255, 36, 30, 25),
             child: InkWell(
-              onTap: () {
-                print("hi");
-              },
+              onTap: onPressed,
               hoverColor: const Color.fromARGB(40, 167, 138, 115),
               splashColor: const Color.fromARGB(105, 180, 114, 196),
               child: Ink(
@@ -141,7 +154,7 @@ class DockWorkspaceButton extends StatelessWidget {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     colorFilter: const ColorFilter.matrix(identityMatrix),
-                    image: AssetImage("assets/rock-1.png"),
+                    image: AssetImage("assets/dock/gems/purple.png"),
                     scale: 13,
                   ),
                 ),
@@ -151,7 +164,7 @@ class DockWorkspaceButton extends StatelessWidget {
         ),
         IgnorePointer(
           child: Image.asset(
-            "assets/rice_slot.png",
+            "assets/dock/borders/main_button.png",
             scale: 2,
           ),
         ),
@@ -162,10 +175,12 @@ class DockWorkspaceButton extends StatelessWidget {
 
 class DockUtilityButton extends StatelessWidget {
   const DockUtilityButton({
+    required this.onPressed,
     required this.assetImageName,
     super.key,
   });
 
+  final void Function() onPressed;
   final String assetImageName;
 
   @override
@@ -178,9 +193,7 @@ class DockUtilityButton extends StatelessWidget {
           child: Material(
             color: const Color.fromARGB(255, 36, 30, 25),
             child: InkWell(
-              onTap: () {
-                print("hi");
-              },
+              onTap: onPressed,
               hoverColor: const Color.fromARGB(40, 167, 138, 115),
               splashColor: const Color.fromARGB(105, 196, 162, 114),
               child: Ink(
@@ -192,7 +205,7 @@ class DockUtilityButton extends StatelessWidget {
         ),
         IgnorePointer(
           child: Image.asset(
-            "assets/rice_btn_slot.png",
+            "assets/dock/borders/side_button.png",
             scale: 2,
           ),
         ),
