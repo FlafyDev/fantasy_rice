@@ -5,10 +5,10 @@
 - [ ] App launcher overlay
 - [ ] Volumes popup
 - [ ] Statistics
-- [ ] Background - Fireplace
-- [/] Workspace switcher
-- [/] Windows overlay
-- [/] Lock overlay
+- [-] Background - Fireplace
+- [-] Workspace switcher
+- [-] Windows overlay
+- [-] Lock overlay
 - [-] Notifications scroll
 - [-] Put strips on greyed screen
 
@@ -21,11 +21,14 @@
 ## Plugins
 
 - [ ] Custom plating for floating windows
+- [-] Borders++
 - [/] Custom fantasy windows borders
 - [-] hypr-dynamic-cursors
 
 ## Extras
 
+- [ ] Lights when workspace change
+- [ ] Lock overlay rattle
 - [ ] "something funny / an easter egg"
 - [ ] "declared he might be giving bonus points for dark skinned elves" (notification image?)
 - [ ] "Goblins are fucking cool tho, I will give extra points for goblins"
